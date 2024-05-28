@@ -14,7 +14,8 @@ const create = account => {
 }
 
 const updateById = (id, account) => {
-  // DO YOUR MAGIC
+  db('accounts').where('id', id).update(account)
+  getById(id)
 }
 
 const deleteById = id => {
