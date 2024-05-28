@@ -1,5 +1,7 @@
+const db = require('../data/db-config.js');
+
 const getAll = () => {
-  // DO YOUR MAGIC
+  db.select('*').from('accounts')
 }
 
 const getById = id => {
