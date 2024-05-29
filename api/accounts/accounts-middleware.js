@@ -23,6 +23,10 @@ exports.checkAccountPayload = (req, res, next) => {
 }
 
 exports.checkAccountNameUnique = async (req, res, next) => {
+  
+}
+
+exports.checkAccountId = async (req, res, next) => {
   const account = await db('accounts').where('id', req.params.id).first();
 
   if (!account) {
@@ -30,8 +34,4 @@ exports.checkAccountNameUnique = async (req, res, next) => {
   }
 
   next();
-}
-
-exports.checkAccountId = (req, res, next) => {
-  // DO YOUR MAGIC
 }
