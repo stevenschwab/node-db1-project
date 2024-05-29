@@ -1,11 +1,15 @@
 const db = require('../data/db-config.js');
 
-const getAll = () => {
-  return db('accounts');
+const getAll = async () => {
+  return await db('accounts');
 }
 
-const getById = id => {
-  return db('accounts').where('id', id).first();
+const getById = async id => {
+  return await db('accounts').where('id', id).first();
+}
+
+const getByName = async name => {
+  return await db('accounts').where('name', name).first();
 }
 
 const create = async account => {
@@ -27,6 +31,7 @@ const deleteById = async id => {
 module.exports = {
   getAll,
   getById,
+  getByName,
   create,
   updateById,
   deleteById,
