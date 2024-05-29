@@ -1,3 +1,5 @@
+const db = require('../../data/db-config');
+
 exports.checkAccountPayload = (req, res, next) => {
   const { name, budget } = req.body;
 
@@ -20,8 +22,14 @@ exports.checkAccountPayload = (req, res, next) => {
   next();
 }
 
-exports.checkAccountNameUnique = (req, res, next) => {
-  // DO YOUR MAGIC
+exports.checkAccountNameUnique = async (req, res, next) => {
+  const account = await db('accounts').where('id', req.params.id).first();
+
+  if (!account) {
+    return next({ status: 404, message: "account not found" })
+  }
+
+  next();
 }
 
 exports.checkAccountId = (req, res, next) => {
