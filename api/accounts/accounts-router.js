@@ -10,7 +10,6 @@ const {
 router.get('/', async (req, res, next) => {
   try {
     const { limit, sortby, sortdir } = req.query;
-    console.log('Query Params:', { limit, sortby, sortdir });
     const data = await Accounts.getAll({ limit, sortby, sortdir });
     res.json(data);
   } catch (err) {
