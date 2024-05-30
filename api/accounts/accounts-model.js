@@ -1,7 +1,7 @@
 const db = require('../../data/db-config');
 
 const getAll = async ({ limit, sortby, sortdir } = {}) => {
-  let query = await db('accounts');
+  let query = db('accounts');
 
   if (sortby) {
     query = query.orderBy(sortby, sortdir || 'asc');
@@ -10,7 +10,7 @@ const getAll = async ({ limit, sortby, sortdir } = {}) => {
     query = query.limit(limit);
   }
 
-  return query;
+  return await query;
 }
 
 const getById = async id => {
