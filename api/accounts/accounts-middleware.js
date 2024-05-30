@@ -1,16 +1,23 @@
 const Accounts = require('./accounts-model');
 
 exports.checkAccountPayload = (req, res, next) => {
-  const { name, budget } = req.body;
+  let { name, budget } = req.body;
 
   if (name === undefined || budget === undefined) {
     return next({ status: 400, message: "name and budget are required" })
   }
+
+  name = name.trim()
   
-  if (name.trim().length < 3 || name.trim().length > 100) {
+  if (name.length < 3 || name.length > 100) {
     return next({ status: 400, message: "name of account must be between 3 and 100" })
   }
+
+  // if (!/^\d+(\.\d+)?$/.test(budget)) {
+  //   return next({ status: 400, message: "budget of account must be a number" });
+  // }
   
+  budget = parseFloat(budget)
   if (isNaN(budget)) {
     return next({ status: 400, message: "budget of account must be a number" })
   }
@@ -19,6 +26,8 @@ exports.checkAccountPayload = (req, res, next) => {
     return next({ status: 400, message: "budget of account is too large or too small" })
   }
 
+  req.body.name = name;
+  req.body.budget = budget;
   next();
 }
 
@@ -48,6 +57,23 @@ exports.checkAccountId = async (req, res, next) => {
     }
 
     next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+exports.checkAccountNameUniqueOnUpdate = async (req, res, next) => {
+  try {
+    const { name } = req.body;
+
+    const trimmedName = name.trim();
+    const existingAccount = await Accounts.getByName(trimmedName);
+
+    if (existingAccount && existingAccount.id !== Number(req.params.id)) {
+      return next({ status: 400, message: "that name is taken" })
+    }
+
+    next()
   } catch (error) {
     next(error);
   }
