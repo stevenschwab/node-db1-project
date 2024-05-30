@@ -13,12 +13,7 @@ exports.checkAccountPayload = (req, res, next) => {
     return next({ status: 400, message: "name of account must be between 3 and 100" })
   }
 
-  // if (!/^\d+(\.\d+)?$/.test(budget)) {
-  //   return next({ status: 400, message: "budget of account must be a number" });
-  // }
-  
-  budget = parseFloat(budget)
-  if (isNaN(budget)) {
+  if (typeof budget !== 'number' || isNaN(budget)) {
     return next({ status: 400, message: "budget of account must be a number" })
   }
   
