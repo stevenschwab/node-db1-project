@@ -22,7 +22,6 @@ exports.checkAccountPayload = (req, res, next) => {
   }
 
   req.body.name = name;
-  req.body.budget = budget;
   next();
 }
 
